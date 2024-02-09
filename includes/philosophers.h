@@ -6,20 +6,27 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:06:39 by athiebau          #+#    #+#             */
-/*   Updated: 2024/02/08 17:01:48 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/02/09 22:23:21 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 #define PHILOSOPHERS_H
 
+//#include "macro.h"
+#include "../Libft/libft.h"
+
 #include <pthread.h>
 #include <limits.h>
 #include <stdlib.h>
-#include "../Libft/libft.h"
 #include <sys/time.h>
-
 #include <stdio.h>
+
+/*
+ ----------------------------------------
+|		STRUCTURES	         |
+ ----------------------------------------
+*/
 
 typedef struct s_philo t_philo;
 typedef struct s_chain t_chain;
@@ -27,27 +34,33 @@ typedef struct s_chain t_chain;
 typedef struct s_chain
 {
 	int	index;
-	int	nb_lunch;
-	pthread_mutex_t	fork;
+	int	nb_repas;
+	pthread_mutex_t	fourchette;
 	t_philo		*tab;
-	t_chain		*next;
-	t_chain		*previous;
+	t_chain		*suivant;
+	t_chain		*precedent;
 	
 }		t_chain;
 
 typedef struct s_philo
 {
 	int	nb_philo;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	nb_lunch;
-	int	death;
-	long long	time;
+	int	temps_pour_mourir;
+	int	temps_pour_manger;
+	int	temps_pour_dormir;
+	int	nb_repas;
+	int	mort;
+	long long	temps;
 	pthread_mutex_t	check;
-	t_chain		*list;
+	t_chain		*liste;
 	
 }		t_philo;
+
+/*
+ ----------------------------------------
+|		   ENUM	                 |
+ ----------------------------------------
+*/
 
 enum
 {
@@ -56,6 +69,26 @@ enum
 	E_TIME,
 };
 
-int	check_args(char **av, t_philo *tab);
+/*
+ ----------------------------------------
+|		   MACROS	         |
+ ----------------------------------------
+*/
+
+#define tant_que(value) while(value)
+#define si(value) if(value)
+#define sinon else
+#define retour(value) return(value)
+#define sortie(value) exit(value)
+#define taille_de(value) sizeof(value)
+#define liberation(value) free(value)
+
+/*
+ ----------------------------------------
+|		   FILES	         |
+ ----------------------------------------
+*/
+
+int	ft_verifier_arguments(char **av, t_philo *tab);
 
 #endif 

@@ -2,7 +2,7 @@ NAME = philosophers
 SRC_DIR = srcs
 OBJ_DIR = objs
 SRCS =  main.c \
-	check_args.c
+	ft_verifier_arguments.c
 
 LIBFT = ./Libft/libft.a
 SRCS := $(SRCS:%=$(SRC_DIR)/%)
