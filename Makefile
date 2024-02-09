@@ -1,9 +1,10 @@
 NAME = philosophers
 SRC_DIR = srcs
 OBJ_DIR = objs
-SRCS = main.c
-LIBFT = ./Libft/libft.a
+SRCS =  main.c \
+	check_args.c
 
+LIBFT = ./Libft/libft.a
 SRCS := $(SRCS:%=$(SRC_DIR)/%)
 OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 CC = cc
