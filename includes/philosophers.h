@@ -6,7 +6,7 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:06:39 by athiebau          #+#    #+#             */
-/*   Updated: 2024/02/09 22:23:21 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/08 15:15:31 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,15 @@ enum
 	E_TIME,
 };
 
+enum
+{
+	M_FOURCHETTE,
+	M_MORT,
+	M_MANGER,
+	M_DORMIR,
+	M_PENSER,	
+};
+
 /*
  ----------------------------------------
 |		   MACROS	         |
@@ -90,5 +99,8 @@ enum
 */
 
 int	ft_verifier_arguments(char **av, t_philo *tab);
+
+void	ft_erreur(int erreur);
+size_t	recuperer_temps_actuel(void);
 
 #endif 

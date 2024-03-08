@@ -6,28 +6,23 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:03:05 by athiebau          #+#    #+#             */
-/*   Updated: 2024/02/09 22:24:06 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/08 15:12:22 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	ft_erreur(int erreur)
+void	repas_philo(t_chain *philo)
 {
-	si (erreur == E_PARSING)
-		printf("C'est non\n");
-	si (erreur == E_TCREATE || erreur == E_TIME)
-		perror("Error:");
-	sortie(0);
-}
+	t_philo	*tab;
 
-size_t	recuperer_temps_actuel(void)
-{
-	struct timeval	tv;
-	
-	si (gettimeofday(&tv, NULL) != 0)
-		retour (-1);
-	retour ((tv.tv_sec / 1000) + (tv.tv_sec * 1000));
+	tab = philo->tab;
+	pthread_mutex_lock(&philo->fourchette);
+	afficher_message(M_FOURCHETTE);
+	si (tab->nb_philo == 1)
+	{
+		
+	}
 }
 
 void	*enfer(void *arg)
@@ -37,9 +32,9 @@ void	*enfer(void *arg)
 
 	philo = arg;
 	tab = philo->tab;
-	tant_que(tab->mort == 0)
+	tant_que(!tab->mort && tab->nb_repas)
 	{
-			
+		repas_philo(philo);
 	}
 	retour (NULL);
 }
