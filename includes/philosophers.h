@@ -6,16 +6,15 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:06:39 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/08 15:15:31 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/12 19:38:25 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 #define PHILOSOPHERS_H
 
-//#include "macro.h"
-#include "../Libft/libft.h"
 
+#include "../Libft/libft.h"
 #include <pthread.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -28,33 +27,35 @@
  ----------------------------------------
 */
 
+typedef struct s_data t_data;
 typedef struct s_philo t_philo;
-typedef struct s_chain t_chain;
-
-typedef struct s_chain
-{
-	int	index;
-	int	nb_repas;
-	pthread_mutex_t	fourchette;
-	t_philo		*tab;
-	t_chain		*suivant;
-	t_chain		*precedent;
-	
-}		t_chain;
 
 typedef struct s_philo
 {
-	int	nb_philo;
-	int	temps_pour_mourir;
-	int	temps_pour_manger;
-	int	temps_pour_dormir;
-	int	nb_repas;
-	int	mort;
-	long long	temps;
-	pthread_mutex_t	check;
-	t_chain		*liste;
+	int	index;
+	int	meals_nb;
+	size_t	last_meal;
+	pthread_mutex_t	fork;
+	t_data		*tab;
+	t_philo		*next;
 	
 }		t_philo;
+
+typedef struct s_data
+{
+	int	nb_philo;
+	size_t	time_to_die;
+	size_t	time_to_eat;
+	size_t	time_to_sleep;
+	int	meals_nb;
+	int	dead;
+	int	satiety;
+	long long	time_0;
+	pthread_mutex_t	check;
+	pthread_mutex_t	print;
+	t_philo		*list;
+	
+}		t_data;
 
 /*
  ----------------------------------------
@@ -71,26 +72,13 @@ enum
 
 enum
 {
-	M_FOURCHETTE,
-	M_MORT,
-	M_MANGER,
-	M_DORMIR,
-	M_PENSER,	
+	M_FORK,
+	M_DEATH,
+	M_EAT,
+	M_SLEEP,
+	M_THINK,
+	M_DROP
 };
-
-/*
- ----------------------------------------
-|		   MACROS	         |
- ----------------------------------------
-*/
-
-#define tant_que(value) while(value)
-#define si(value) if(value)
-#define sinon else
-#define retour(value) return(value)
-#define sortie(value) exit(value)
-#define taille_de(value) sizeof(value)
-#define liberation(value) free(value)
 
 /*
  ----------------------------------------
@@ -98,9 +86,13 @@ enum
  ----------------------------------------
 */
 
-int	ft_verifier_arguments(char **av, t_philo *tab);
+int	check_args(char **av, t_data *tab);
 
-void	ft_erreur(int erreur);
-size_t	recuperer_temps_actuel(void);
+void	*routine(void *arg);
+
+void	ft_error(int erreur);
+size_t	get_time(void);
+void	spend_time(t_data *tab, size_t time);
+void	print_message(t_philo *philo, int message);
 
 #endif 

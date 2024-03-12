@@ -6,67 +6,85 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:03:05 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/08 15:12:22 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/12 19:47:38 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	repas_philo(t_chain *philo)
+void	check_death(t_data *tab)
 {
-	t_philo	*tab;
+	int	i;
 
-	tab = philo->tab;
-	pthread_mutex_lock(&philo->fourchette);
-	afficher_message(M_FOURCHETTE);
-	si (tab->nb_philo == 1)
+	while (tab->satiety)
 	{
-		
+		i = -1;
+		while (!tab->dead && ++i < tab->nb_philo)
+		{
+			pthread_mutex_lock(&tab->check);
+			if ((get_time() - tab->list[i].last_meal) > (size_t)tab->time_to_die)
+			{
+				print_message(&tab->list[i], M_DEATH);
+				tab->dead = 1;
+			}
+			pthread_mutex_unlock(&tab->check);
+			//usleep(100);
+		}
+		if (tab->dead)
+			break ;
+		i = 0;
+		while (tab->meals_nb != -1 && i < tab->nb_philo && tab->list[i].meals_nb >= tab->meals_nb)
+			i++;
+		if (i == tab->nb_philo)
+			tab->satiety = 1;
 	}
 }
 
-void	*enfer(void *arg)
+void	the_end(t_data *tab, pthread_t *id)
 {
-	t_philo *tab;
-	t_chain	*philo;
+	int	i;
 
-	philo = arg;
-	tab = philo->tab;
-	tant_que(!tab->mort && tab->nb_repas)
-	{
-		repas_philo(philo);
-	}
-	retour (NULL);
+	i = -1;
+	while (++i < tab->nb_philo)
+		pthread_join(id[i], NULL);
+	i = -1;
+	while (++i < tab->nb_philo)
+		pthread_mutex_destroy(&tab->list[i].fork);
+	pthread_mutex_destroy(&tab->print);
+	pthread_mutex_destroy(&tab->check);
+	free(tab->list);
+	free(id);
 }
-
-// void	check_mort(t_philo *tab)
-// {
-	
-// }
 
 int	main(int ac, char **av)
 {
 	int	i;
-	t_philo	tab;
+	t_data	tab;
 	pthread_t	*id;
 	
-	si (ac < 5 || ac > 6 || ft_verifier_arguments(av, &tab) == 1)
-		ft_erreur(E_PARSING);
+	if(ac < 5 || ac > 6 || check_args(av, &tab) == 1)
+		ft_error(E_PARSING);
 	id = (pthread_t *)malloc(tab.nb_philo * sizeof(pthread_t));
-	tab.temps = recuperer_temps_actuel();
-	si (tab.temps == -1)
-		ft_erreur(E_TIME);
+	tab.time_0 = get_time();
+	if (tab.time_0 == -1)
+		ft_error(E_TIME);
 	i = -1;
-	tant_que(++i < tab.nb_philo)
+	while(++i < tab.nb_philo)
 	{
-		si (pthread_create(&id[i], NULL, enfer, &tab.liste[i]))
+		if(pthread_create(&id[i], NULL, &routine, &tab.list[i]) != 0)
 		{
-			liberation(id);
-			liberation(tab.liste);
-			ft_erreur(E_TCREATE);
-		}	
+			free(id);
+			free(tab.list);
+			ft_error(E_TCREATE);
+		}
+		pthread_mutex_lock(&tab.check);
+		tab.list[i].last_meal = tab.time_0;
+		pthread_mutex_unlock(&tab.check);
 	}
-	// check_mort(&tab);
-	printf("tout va bieng\n");
-	retour (0);
+	i = -1;
+	while (++i < tab.nb_philo)
+		pthread_join(id[i], NULL);
+	check_death(&tab);
+	the_end(&tab, id);
+	return (0);
 }
