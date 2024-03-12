@@ -21,7 +21,7 @@ OBJS = ${SRCS:.c=.o}
 OBJSB = ${SRCSB:.c=.o}
 NAME = libft.a
 LIBC = ar rcs
-CC = gcc
+CC = cc
 RM = rm -f
 CFLAGS = -Wall -Wextra -Werror
 

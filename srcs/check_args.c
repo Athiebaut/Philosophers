@@ -43,21 +43,23 @@ static void	ft_initialisation(t_data *tab)
 {
 	int	i;
 	
-	i = -1;
+	i = 0;
 	tab->dead = 0;
 	tab->satiety = 0;
 	tab->list = (t_philo *)malloc(tab->nb_philo * sizeof(t_philo));
-	while(++i < tab->nb_philo)
+	while(i < tab->nb_philo)
 	{
 		tab->list[i].index = i + 1;
 		tab->list[i].meals_nb = 0;
 		tab->list[i].tab = tab;
-		if (i < tab->nb_philo)
-			tab->list[i].next = &tab->list[i + 1];
-		else
+		if (i + 1 == tab->nb_philo)
 			tab->list[i].next = &tab->list[0];
+		else
+			tab->list[i].next = &tab->list[i + 1];
 		pthread_mutex_init(&tab->list[i].fork, NULL); 
-		printf("%d ptr2 : %p\n", i, tab->list[i].next);
+		//printf("%d ptr1 : %p\n", i, &tab->list[i].fork);
+		//printf("%d ptr2 : %p\n\n", i + 1, &tab->list[i].next->fork);
+		i++;
 	}
 	pthread_mutex_init(&tab->check, NULL);
 	pthread_mutex_init(&tab->print, NULL);

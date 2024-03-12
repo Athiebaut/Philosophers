@@ -6,7 +6,7 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:03:05 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/12 19:47:38 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/12 20:04:25 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	check_death(t_data *tab)
 			pthread_mutex_unlock(&tab->check);
 			//usleep(100);
 		}
-		if (tab->dead)
+		if (tab->dead == 1)
 			break ;
 		i = 0;
 		while (tab->meals_nb != -1 && i < tab->nb_philo && tab->list[i].meals_nb >= tab->meals_nb)
