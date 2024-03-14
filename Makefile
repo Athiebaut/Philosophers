@@ -1,4 +1,4 @@
-NAME = philosophers
+NAME = philo
 SRC_DIR = srcs
 OBJ_DIR = objs
 SRCS =  main.c \
@@ -10,7 +10,7 @@ LIBFT = ./Libft/libft.a
 SRCS := $(SRCS:%=$(SRC_DIR)/%)
 OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 CC = cc
-FLAGS = -Wall -Wextra -Werror -pthread
+FLAGS = -Wall -Wextra -Werror -pthread -g3
 DIR_DUP     = mkdir -p $(@D)
 
 all : $(NAME)

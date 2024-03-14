@@ -6,7 +6,7 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:50:09 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/13 20:02:06 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/14 18:31:27 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,16 @@ static void	ft_initialisation(t_data *tab)
 	tab->dead = 0;
 	tab->satiety = 0;
 	tab->list = (t_philo *)malloc(tab->nb_philo * sizeof(t_philo));
+	tab->time_to_think = -1;
+	if ((tab->nb_philo % 2 == 1) && ((tab->time_to_sleep + tab->time_to_eat) < tab->time_to_die))
+	{
+		if (tab->time_to_eat > tab->time_to_sleep)
+			tab->time_to_think = tab->time_to_eat / 2;
+		else
+			tab->time_to_think = tab->time_to_sleep / 2; 
+	}
+	else		
+		tab->time_to_think = -1;
 	while (++i < tab->nb_philo)
 	{
 		tab->list[i].index = i + 1;
@@ -60,6 +70,7 @@ static void	ft_initialisation(t_data *tab)
 	}
 	pthread_mutex_init(&tab->check, NULL);
 	pthread_mutex_init(&tab->print, NULL);
+	pthread_mutex_init(&tab->meal, NULL);
 }
 
 int	check_args(char **av, t_data *tab)

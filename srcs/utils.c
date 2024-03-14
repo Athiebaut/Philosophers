@@ -6,7 +6,7 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 19:21:46 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/13 20:05:20 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/14 16:27:06 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,12 @@ size_t	get_time(void)
 void	spend_time(t_data *tab, size_t time)
 {
 	size_t	t;
-	int	flag;
 
-	flag = 0;
 	t = get_time();
-	while (!(tab->dead))
+	while(!test_death(tab))
 	{
 		if (get_time() - t >= time)
-		{
-			flag = 1;
 			break ;
-		}
 		usleep(100);
 	}
 }
@@ -63,19 +58,26 @@ static char	*get_message(int message)
 	return ("Error: id msg not valid");
 }
 
+bool	is_philo_dead(t_data *tab)
+{
+	if (test_death(tab) || test_satiety(tab))
+		return (true);
+	return (false);
+}
+
 void	print_message(t_philo *philo, int message)
 {
 	size_t	time;
 
-	pthread_mutex_lock(&philo->tab->print);
-	pthread_mutex_lock(&philo->tab->check);
 	time = get_time() - philo->tab->time_0;
-	if (!philo->tab->dead && !philo->tab->satiety)
+	//pthread_mutex_unlock(&philo->tab->meal);
+	if (!is_philo_dead(philo->tab))
 	{
-		printf("-%ld ", time);
+		pthread_mutex_lock(&philo->tab->print);
+		printf("%ld ", time);
 		printf("%d ", philo->index);
 		printf("%s\n", get_message(message));
+		pthread_mutex_unlock(&philo->tab->print);
 	}
-	pthread_mutex_unlock(&philo->tab->print);
-	pthread_mutex_unlock(&philo->tab->check);
+	//pthread_mutex_lock(&philo->tab->meal);
 }
