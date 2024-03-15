@@ -6,7 +6,7 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 19:21:46 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/14 16:27:06 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/15 17:33:16 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	spend_time(t_data *tab, size_t time)
 	size_t	t;
 
 	t = get_time();
-	while(!test_death(tab))
+	while (!test_death(tab))
 	{
 		if (get_time() - t >= time)
 			break ;
@@ -68,16 +68,15 @@ bool	is_philo_dead(t_data *tab)
 void	print_message(t_philo *philo, int message)
 {
 	size_t	time;
+	bool	res;
 
 	time = get_time() - philo->tab->time_0;
-	//pthread_mutex_unlock(&philo->tab->meal);
-	if (!is_philo_dead(philo->tab))
+	res = is_philo_dead(philo->tab);
+	pthread_mutex_lock(&philo->tab->print);
+	if (!res || message == M_DEATH)
 	{
-		pthread_mutex_lock(&philo->tab->print);
-		printf("%ld ", time);
-		printf("%d ", philo->index);
+		printf("%ld %d ", time, philo->index);
 		printf("%s\n", get_message(message));
-		pthread_mutex_unlock(&philo->tab->print);
 	}
-	//pthread_mutex_lock(&philo->tab->meal);
+	pthread_mutex_unlock(&philo->tab->print);
 }

@@ -6,7 +6,7 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:03:05 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/14 16:00:55 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/15 17:30:59 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ bool	envie_de_crever(t_data *tab, int i)
 void	check_death(t_data *tab)
 {
 	int	i;
-	
-	
+
 	while (!test_satiety(tab))
 	{
 		i = -1;
@@ -60,25 +59,22 @@ void	check_death(t_data *tab)
 		{
 			if ((envie_de_crever(tab, i)))
 			{
-				print_message(&tab->list[i], M_DEATH);
 				pthread_mutex_lock(&tab->check);
 				tab->dead = 1;
 				pthread_mutex_unlock(&tab->check);
+				if (tab->nb_philo != 1)
+					print_message(&tab->list[i], M_DEATH);
 				break ;
 			}
-			usleep(100);
+			usleep(1);
 		}
 		if (test_death(tab))
-		{
 			break ;
-		}
 		i = 0;
 		pthread_mutex_lock(&tab->meal);
 		while (tab->meals_nb != -1 && i < tab->nb_philo
-			&& tab->list[i].meals_nb >= tab->meals_nb)
-			{
+			&& (tab->list[i].meals_nb >= tab->meals_nb))
 			i++;
-			}
 		if (i == tab->nb_philo)
 			tab->satiety = 1;
 		pthread_mutex_unlock(&tab->meal);

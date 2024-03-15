@@ -6,7 +6,7 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:06:39 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/14 17:17:14 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/15 17:34:56 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 
 # include "../Libft/libft.h"
 # include <limits.h>
-# include <stdbool.h>
 # include <pthread.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
 
 /*
  ----------------------------------------
-|		STRUCTURES		      |
+|		STRUCTURES			   |
  ----------------------------------------
 */
 
@@ -47,7 +47,7 @@ typedef struct s_data
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	long long			time_to_think;
+	long long		time_to_think;
 	int				meals_nb;
 	int				dead;
 	int				satiety;
@@ -61,7 +61,7 @@ typedef struct s_data
 
 /*
  ----------------------------------------
-|			ENUM	                 |
+|			ENUM		              |
  ----------------------------------------
 */
 
@@ -84,7 +84,7 @@ enum
 
 /*
  ----------------------------------------
-|			FILES	         |
+|			FILES		      |
  ----------------------------------------
 */
 
