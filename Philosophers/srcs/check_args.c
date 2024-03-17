@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   check_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:50:09 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/15 17:32:48 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/17 23:10:54 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../../includes/philosophers.h"
 
 static int	check_numbers(char *str, int *error)
 {
@@ -39,23 +39,11 @@ static int	check_numbers(char *str, int *error)
 	return (result);
 }
 
-static void	ft_initialisation(t_data *tab)
+static void	initialize_philo(t_data *tab)
 {
 	int	i;
 
 	i = -1;
-	tab->dead = 0;
-	tab->satiety = 0;
-	tab->list = (t_philo *)malloc(tab->nb_philo * sizeof(t_philo));
-	tab->time_to_think = -1;
-	if ((tab->nb_philo % 2 == 1))
-	{
-		if (tab->time_to_eat > tab->time_to_sleep)
-			tab->time_to_think = tab->time_to_sleep + tab->time_to_eat;
-		else if ((tab->time_to_eat * 3) + tab->time_to_sleep
-			>= tab->time_to_die)
-			tab->time_to_think = 10;
-	}
 	while (++i < tab->nb_philo)
 	{
 		tab->list[i].index = i + 1;
@@ -65,11 +53,34 @@ static void	ft_initialisation(t_data *tab)
 			tab->list[i].next = &tab->list[0];
 		else
 			tab->list[i].next = &tab->list[i + 1];
-		pthread_mutex_init(&tab->list[i].fork, NULL);
+		if (pthread_mutex_init(&tab->list[i].fork, NULL))
+			ft_error(E_MUTEX, tab);
 	}
-	pthread_mutex_init(&tab->check, NULL);
-	pthread_mutex_init(&tab->print, NULL);
-	pthread_mutex_init(&tab->meal, NULL);
+}
+
+static void	ft_initialisation(t_data *tab)
+{
+	tab->dead = 0;
+	tab->satiety = 0;
+	tab->list = (t_philo *)malloc(tab->nb_philo * sizeof(t_philo));
+	if (!tab->list)
+		ft_error(E_MALLOC, tab);
+	tab->time_to_think = -1;
+	if ((tab->nb_philo % 2 == 1))
+	{
+		if (tab->time_to_eat > tab->time_to_sleep)
+			tab->time_to_think = tab->time_to_sleep + tab->time_to_eat;
+		else if ((tab->time_to_eat * 3) + tab->time_to_sleep
+			>= tab->time_to_die)
+			tab->time_to_think = 10;
+	}
+	initialize_philo(tab);
+	if (pthread_mutex_init(&tab->check, NULL))
+		ft_error(E_MUTEX, tab);
+	if (pthread_mutex_init(&tab->print, NULL))
+		ft_error(E_MUTEX, tab);
+	if (pthread_mutex_init(&tab->meal, NULL))
+		ft_error(E_MUTEX, tab);
 }
 
 int	check_args(char **av, t_data *tab)

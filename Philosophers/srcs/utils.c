@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 19:21:46 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/15 17:33:16 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/17 23:04:08 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
-
-void	ft_error(int error)
-{
-	if (error == E_PARSING)
-		printf("Error: Invalids parameters\n");
-	if (error == E_TCREATE || error == E_TIME)
-		perror("Error:");
-	exit(1);
-}
+#include "../../includes/philosophers.h"
 
 size_t	get_time(void)
 {
@@ -72,11 +63,10 @@ void	print_message(t_philo *philo, int message)
 
 	time = get_time() - philo->tab->time_0;
 	res = is_philo_dead(philo->tab);
-	pthread_mutex_lock(&philo->tab->print);
+	if (pthread_mutex_lock(&philo->tab->print))
+		ft_error(E_MUTEX, philo->tab);
 	if (!res || message == M_DEATH)
-	{
-		printf("%ld %d ", time, philo->index);
-		printf("%s\n", get_message(message));
-	}
-	pthread_mutex_unlock(&philo->tab->print);
+		printf("%ld %d %s\n", time, philo->index, get_message(message));
+	if (pthread_mutex_unlock(&philo->tab->print))
+		ft_error(E_MUTEX, philo->tab);
 }

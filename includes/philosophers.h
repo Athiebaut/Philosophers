@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:06:39 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/15 17:34:56 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/17 23:14:49 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_data
 	int				dead;
 	int				satiety;
 	long long		time_0;
+	pthread_t	*id;
 	pthread_mutex_t	check;
 	pthread_mutex_t	print;
 	pthread_mutex_t	meal;
@@ -67,9 +68,11 @@ typedef struct s_data
 
 enum
 {
+	E_MUTEX,
 	E_PARSING,
-	E_TCREATE,
+	E_THREAD,
 	E_TIME,
+	E_MALLOC,
 };
 
 enum
@@ -92,7 +95,8 @@ int		check_args(char **av, t_data *tab);
 
 void	*routine(void *arg);
 
-void	ft_error(int erreur);
+void	ft_error(int erreur, t_data *tab);
+
 size_t	get_time(void);
 void	spend_time(t_data *tab, size_t time);
 void	print_message(t_philo *philo, int message);
@@ -101,6 +105,6 @@ bool	is_philo_dead(t_data *tab);
 
 bool	test_death(t_data *tab);
 bool	test_satiety(t_data *tab);
-bool	envie_de_crever(t_data *tab, int i);
+void	check_death_and_satiety(t_data *tab);
 
 #endif

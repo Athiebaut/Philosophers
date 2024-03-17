@@ -1,7 +1,8 @@
 NAME = philo
-SRC_DIR = srcs
+SRC_DIR = Philosophers/srcs
 OBJ_DIR = objs
 SRCS =  main.c \
+	check_death.c \
 	check_args.c \
 	utils.c \
 	routine.c
@@ -30,7 +31,7 @@ clean :
 
 fclean : clean
 	make -j fclean -C ./Libft
-	rm -f philosophers
+	rm -f philo
 
 re : fclean
 	make all
