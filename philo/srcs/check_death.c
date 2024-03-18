@@ -6,11 +6,11 @@
 /*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 22:52:13 by alix              #+#    #+#             */
-/*   Updated: 2024/03/17 23:02:31 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/18 00:15:01 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philosophers.h"
+#include "../includes/philosophers.h"
 
 bool	test_satiety(t_data *tab)
 {

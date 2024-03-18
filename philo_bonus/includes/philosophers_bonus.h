@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
+/*   philosophers_bonus.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:06:39 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/17 23:14:49 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/18 01:14:11 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <semaphore.h>
+# include <fcntl.h>
+# include <sys/stat.h> 
 
 /*
  ----------------------------------------
-|		STRUCTURES			   |
+|		STRUCTURES		 |
  ----------------------------------------
 */
 
@@ -33,11 +36,12 @@ typedef struct s_philo	t_philo;
 typedef struct s_philo
 {
 	int				index;
-	int				meals_nb;
+	int				nb_meals;
 	size_t			last_meal;
-	pthread_mutex_t	fork;
-	t_data			*tab;
 	t_philo			*next;
+	t_data			*tab;
+	pid_t			pid;
+	pthread_t		death_satiety;
 
 }						t_philo;
 
@@ -48,29 +52,29 @@ typedef struct s_data
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	long long		time_to_think;
-	int				meals_nb;
+	int				nb_meals;
 	int				dead;
 	int				satiety;
 	long long		time_0;
-	pthread_t	*id;
-	pthread_mutex_t	check;
-	pthread_mutex_t	print;
-	pthread_mutex_t	meal;
+	sem_t 		*check;
+	sem_t		*print;
+	sem_t		*meal;
+	sem_t		*fork;
 	t_philo			*list;
 
 }						t_data;
 
 /*
  ----------------------------------------
-|			ENUM		              |
+|		   ENUM		 	 |
  ----------------------------------------
 */
 
 enum
 {
-	E_MUTEX,
 	E_PARSING,
-	E_THREAD,
+	E_FORK,
+	E_SEMAPHORE,
 	E_TIME,
 	E_MALLOC,
 };
@@ -87,24 +91,8 @@ enum
 
 /*
  ----------------------------------------
-|			FILES		      |
+|		   FILES		 |
  ----------------------------------------
 */
-
-int		check_args(char **av, t_data *tab);
-
-void	*routine(void *arg);
-
-void	ft_error(int erreur, t_data *tab);
-
-size_t	get_time(void);
-void	spend_time(t_data *tab, size_t time);
-void	print_message(t_philo *philo, int message);
-
-bool	is_philo_dead(t_data *tab);
-
-bool	test_death(t_data *tab);
-bool	test_satiety(t_data *tab);
-void	check_death_and_satiety(t_data *tab);
 
 #endif

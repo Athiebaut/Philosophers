@@ -6,11 +6,11 @@
 /*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 19:21:46 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/17 23:04:08 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/18 00:15:08 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philosophers.h"
+#include "../includes/philosophers.h"
 
 size_t	get_time(void)
 {

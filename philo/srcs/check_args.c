@@ -6,11 +6,11 @@
 /*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:50:09 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/17 23:10:54 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/18 00:39:48 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philosophers.h"
+#include "../includes/philosophers.h"
 
 static int	check_numbers(char *str, int *error)
 {

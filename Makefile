@@ -1,5 +1,5 @@
 NAME = philo
-SRC_DIR = Philosophers/srcs
+SRC_DIR = philo/srcs
 OBJ_DIR = objs
 SRCS =  main.c \
 	check_death.c \

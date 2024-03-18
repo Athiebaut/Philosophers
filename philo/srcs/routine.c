@@ -6,11 +6,11 @@
 /*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 17:53:42 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/17 23:03:55 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/18 00:15:06 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philosophers.h"
+#include "../includes/philosophers.h"
 
 static void	which_fork_to_take(t_philo *philo, int nb, t_data *tab)
 {

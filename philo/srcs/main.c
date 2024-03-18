@@ -6,11 +6,11 @@
 /*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:03:05 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/17 23:22:58 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/18 01:11:14 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philosophers.h"
+#include "../includes/philosophers.h"
 
 void	the_end(t_data *tab);
 
@@ -84,7 +84,7 @@ int	main(int ac, char **av)
 		ft_error(E_MALLOC, &tab);
 	tab.time_0 = get_time();
 	if (tab.time_0 == -1)
-		ft_error(E_PARSING, &tab);
+		ft_error(E_TIME, &tab);
 	create_threads(tab.id, &tab);
 	(check_death_and_satiety(&tab), the_end(&tab));
 	return (0);
