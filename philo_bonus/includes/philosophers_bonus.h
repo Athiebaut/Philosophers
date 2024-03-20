@@ -6,14 +6,14 @@
 /*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:06:39 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/18 01:14:11 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/20 17:01:44 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-# include "../Libft/libft.h"
+# include "../../Libft/libft.h"
 # include <limits.h>
 # include <pthread.h>
 # include <stdbool.h>

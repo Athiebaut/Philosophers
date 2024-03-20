@@ -6,7 +6,7 @@
 /*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 00:17:57 by alix              #+#    #+#             */
-/*   Updated: 2024/03/18 01:15:24 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/20 17:11:13 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int ac, char **av)
 	int	i;
 	
 	if (ac < 5 || ac > 6 || check_args(av, &tab) == 1)
-		ft_error(E_PARSING, &tab);
+		ft_error(E_PARSING, NULL);
 	tab.time_0 = get_time();
 	if (tab.time_0 == -1)
 		ft_error(E_TIME, &tab);

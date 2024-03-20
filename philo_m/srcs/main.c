@@ -6,7 +6,7 @@
 /*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:03:05 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/18 01:11:14 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/20 17:12:39 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@ void	the_end(t_data *tab);
 
 void	ft_error(int error, t_data *tab)
 {
-	(void)tab;
 	if (error == E_PARSING)
 		printf("Error: Invalids parameters\n");
 	else
 		perror("Error:");
-	if (tab->list)
+	if (tab && tab->list)
 		free(tab->list);
-	if (tab->id)
+	if (tab && tab->id)
 		free(tab->id);
 	exit(1);
 }
@@ -78,7 +77,7 @@ int	main(int ac, char **av)
 	t_data		tab;
 
 	if (ac < 5 || ac > 6 || check_args(av, &tab) == 1)
-		ft_error(E_PARSING, &tab);
+		ft_error(E_PARSING, NULL);
 	tab.id = (pthread_t *)malloc(tab.nb_philo * sizeof(pthread_t));
 	if (!tab.id)
 		ft_error(E_MALLOC, &tab);

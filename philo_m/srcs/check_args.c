@@ -6,11 +6,29 @@
 /*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:50:09 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/18 00:39:48 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/20 17:17:20 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+
+static int	get_right_size(char *str)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (str[i] && (str[i] < '1' || str[i] > '9'))
+		i++;
+	while (str[i] && (str[i] >= '1' || str[i] <= '9'))
+	{
+		i++;
+		count++;
+	}
+	return (count);
+		
+}
 
 static int	check_numbers(char *str, int *error)
 {
@@ -20,7 +38,13 @@ static int	check_numbers(char *str, int *error)
 
 	i = 0;
 	result = 0;
-	len = ft_strlen(str);
+	if (!str)
+	{
+		*error = 1;
+		return (0);
+	}
+	len = get_right_size(str);
+	printf("len : %d\n", len);
 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
