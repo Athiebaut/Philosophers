@@ -6,7 +6,7 @@
 /*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:50:09 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/20 17:23:13 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/20 17:26:27 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	check_numbers(char *str, int *error)
 
 	i = 0;
 	result = 0;
-	if (!str)
+	if (!str || *str == '\0')
 	{
 		*error = 1;
 		return (0);
