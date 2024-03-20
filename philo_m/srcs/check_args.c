@@ -6,7 +6,7 @@
 /*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:50:09 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/20 17:17:20 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/20 17:23:13 by alix             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static int	check_numbers(char *str, int *error)
 		return (0);
 	}
 	len = get_right_size(str);
-	printf("len : %d\n", len);
 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
