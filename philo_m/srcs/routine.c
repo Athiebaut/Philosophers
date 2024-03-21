@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 17:53:42 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/18 00:15:06 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/21 16:59:42 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,15 @@ static void	meal_philo2(t_philo *philo, t_data *tab)
 	print_message(philo, M_EAT);
 	if (pthread_mutex_lock(&tab->meal))
 		ft_error(E_MUTEX, tab);
-	philo->meals_nb++;
-	if (pthread_mutex_unlock(&philo->tab->meal))
-		ft_error(E_MUTEX, tab);
-	if (pthread_mutex_lock(&tab->meal))
-		ft_error(E_MUTEX, tab);
 	philo->last_meal = get_time();
 	if (pthread_mutex_unlock(&tab->meal))
 		ft_error(E_MUTEX, tab);
 	spend_time(tab, tab->time_to_eat);
+	if (pthread_mutex_lock(&tab->meal))
+		ft_error(E_MUTEX, tab);
+	philo->meals_nb++;
+	if (pthread_mutex_unlock(&philo->tab->meal))
+		ft_error(E_MUTEX, tab);
 	if (pthread_mutex_unlock(&philo->fork))
 		ft_error(E_MUTEX, tab);
 	if (pthread_mutex_unlock(&philo->next->fork))
