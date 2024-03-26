@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 00:17:57 by alix              #+#    #+#             */
-/*   Updated: 2024/03/20 17:11:13 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/26 00:18:42 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void	ft_error(int error, t_data *tab)
 	else
 		perror("Error:");
 	if (tab->list)
+	{
 		free(tab->list);
+		tab->list = NULL;
+	}
 	exit(1);
 }
 
@@ -37,7 +40,7 @@ int	main(int ac, char **av)
 	i = -1;
 	while (++i < tab.nb_philo)
 	{
-		tab.list[i].pid = fork;
+		tab.list[i].pid = fork();
 		if (tab.list[i].pid == -1)
 			ft_error(E_FORK, &tab);
 		if (tab.list[i].pid == 0)

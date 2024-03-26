@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_args_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 00:19:22 by alix              #+#    #+#             */
-/*   Updated: 2024/03/18 01:03:32 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/26 00:02:42 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ static void	initialize_philo(t_data *tab)
 		else
 			tab->list[i].next = &tab->list[i + 1];
 	}
-	tab->check = sem_open("/sem_check", O_CREAT);
-	tab->print = sem_open("/sem_check", O_CREAT);
-	tab->meal = sem_open("/sem_check", O_CREAT);
-	tab->fork = sem_open("/sem_check", O_CREAT);
+	tab->check = sem_open("/sem_check", O_CREAT, 0644, 1);
+	tab->print = sem_open("/sem_print", O_CREAT, 0644, 1);
+	//tab->meal = sem_open("/sem_meal", O_CREAT, 0644, 1);
+	tab->fork = sem_open("/sem_fork", O_CREAT, 0644, tab->nb_philo);
 	if (tab->check == SEM_FAILED || tab->print == SEM_FAILED
-		|| tab->meal == SEM_FAILED || tab->fork == SEM_FAILED)
+		|| tab->fork == SEM_FAILED)
 		ft_error(E_SEMAPHORE, tab);
 }
 

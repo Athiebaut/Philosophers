@@ -6,7 +6,7 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 17:53:42 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/21 16:59:42 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/25 23:43:14 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ static void	which_fork_to_take(t_philo *philo, int nb, t_data *tab)
 
 static void	meal_philo2(t_philo *philo, t_data *tab)
 {
-	print_message(philo, M_EAT);
 	if (pthread_mutex_lock(&tab->meal))
 		ft_error(E_MUTEX, tab);
 	philo->last_meal = get_time();
 	if (pthread_mutex_unlock(&tab->meal))
 		ft_error(E_MUTEX, tab);
+	print_message(philo, M_EAT);
 	spend_time(tab, tab->time_to_eat);
 	if (pthread_mutex_lock(&tab->meal))
 		ft_error(E_MUTEX, tab);

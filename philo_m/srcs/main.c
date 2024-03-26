@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:03:05 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/20 17:12:39 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/26 00:06:11 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,15 @@ void	ft_error(int error, t_data *tab)
 	else
 		perror("Error:");
 	if (tab && tab->list)
+	{
 		free(tab->list);
+		tab->list = NULL;
+	}
 	if (tab && tab->id)
+	{
 		free(tab->id);
+		tab->id = NULL;
+	}
 	exit(1);
 }
 
@@ -48,7 +54,9 @@ void	the_end(t_data *tab)
 	if (pthread_mutex_destroy(&tab->meal))
 		ft_error(E_MUTEX, tab);
 	free(tab->list);
+	tab->list = NULL;
 	free(tab->id);
+	tab->id = NULL;
 }
 
 static void	create_threads(pthread_t *id, t_data *tab)

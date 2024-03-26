@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers_bonus.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:06:39 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/20 17:01:44 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/26 00:20:25 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 # include "../../Libft/libft.h"
 # include <limits.h>
+# include <signal.h>
 # include <pthread.h>
 # include <stdbool.h>
 # include <stdio.h>
+# include <sys/wait.h>
 # include <stdlib.h>
 # include <sys/time.h>
 # include <semaphore.h>
@@ -58,7 +60,7 @@ typedef struct s_data
 	long long		time_0;
 	sem_t 		*check;
 	sem_t		*print;
-	sem_t		*meal;
+	//sem_t		*meal;
 	sem_t		*fork;
 	t_philo			*list;
 
@@ -75,6 +77,7 @@ enum
 	E_PARSING,
 	E_FORK,
 	E_SEMAPHORE,
+	E_THREAD,
 	E_TIME,
 	E_MALLOC,
 };
@@ -94,5 +97,18 @@ enum
 |		   FILES		 |
  ----------------------------------------
 */
+
+void	ft_error(int error, t_data *tab);
+
+int	check_args(char **av, t_data *tab);
+
+void	*check_death_and_satiety(void *arg);
+void	the_end(t_data *tab);
+
+void	*routine(void *arg);
+
+void	spend_time(t_data *tab, size_t time);
+size_t	get_time(void);
+void	print_message(t_philo *philo, int message);
 
 #endif

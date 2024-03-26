@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/07 19:21:46 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/25 23:36:16 by athiebau         ###   ########.fr       */
+/*   Created: 2024/03/25 23:46:50 by athiebau          #+#    #+#             */
+/*   Updated: 2024/03/26 02:09:48 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../includes/philosophers_bonus.h"
 
 size_t	get_time(void)
 {
@@ -23,10 +23,12 @@ size_t	get_time(void)
 
 void	spend_time(t_data *tab, size_t time)
 {
-	size_t	t;
+	long long	t;
 
 	t = get_time();
-	while (!test_death(tab))
+	if (t == -1)
+		ft_error(E_TIME, tab);
+	while (!tab->dead)
 	{
 		if (get_time() - t >= time)
 			break ;
@@ -49,24 +51,13 @@ static char	*get_message(int message)
 	return ("Error: id msg not valid");
 }
 
-bool	is_philo_dead(t_data *tab)
-{
-	if (test_death(tab) || test_satiety(tab))
-		return (true);
-	return (false);
-}
-
 void	print_message(t_philo *philo, int message)
 {
-	size_t	time;
-	bool	res;
+	size_t	t;
 
-	time = get_time() - philo->tab->time_0;
-	if (pthread_mutex_lock(&philo->tab->print))
-		ft_error(E_MUTEX, philo->tab);
-	res = is_philo_dead(philo->tab);
-	if (!res || message == M_DEATH)
-		printf("%ld %d %s\n", time, philo->index, get_message(message));
-	if (pthread_mutex_unlock(&philo->tab->print))
-		ft_error(E_MUTEX, philo->tab);
+	t = get_time() - philo->tab->time_0;
+	sem_wait(philo->tab->print);
+	if (!philo->tab->dead && !philo->tab->satiety)
+		printf("%ld %d %s\n", t, philo->index, get_message(message));
+	sem_post(philo->tab->print);
 }
