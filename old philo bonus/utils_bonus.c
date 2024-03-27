@@ -6,13 +6,13 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 23:46:50 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/26 02:09:48 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/27 04:07:09 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers_bonus.h"
 
-size_t	get_time(void)
+long long	get_time(void)
 {
 	struct timeval	tv;
 
@@ -21,14 +21,14 @@ size_t	get_time(void)
 	return ((tv.tv_usec / 1000) + (tv.tv_sec * 1000));
 }
 
-void	spend_time(t_data *tab, size_t time)
+void	spend_time(t_philo *philo, long long time)
 {
 	long long	t;
 
 	t = get_time();
 	if (t == -1)
-		ft_error(E_TIME, tab);
-	while (!tab->dead)
+		ft_error(E_TIME, philo->tab);
+	while (!test_death(philo->tab))
 	{
 		if (get_time() - t >= time)
 			break ;
@@ -57,7 +57,7 @@ void	print_message(t_philo *philo, int message)
 
 	t = get_time() - philo->tab->time_0;
 	sem_wait(philo->tab->print);
-	if (!philo->tab->dead && !philo->tab->satiety)
+	if (!test_death(philo->tab))
 		printf("%ld %d %s\n", t, philo->index, get_message(message));
 	sem_post(philo->tab->print);
 }

@@ -11,10 +11,12 @@ SRCS =  main.c \
 	routine.c
 
 SRCS_B =  main_bonus.c \
-	check_death_bonus.c \
-	check_args_bonus.c \
-	utils_bonus.c \
-	routine_bonus.c
+	clear_bonus.c \
+	init_bonus.c \
+	monitoring_bonus.c \
+	parsing_bonus.c \
+	routines_bonus.c \
+	time_bonus.c
 
 LIBFT = ./Libft/libft.a
 SRCS := $(SRCS:%=$(SRC_DIR)/%)

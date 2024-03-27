@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:06:39 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/20 17:03:20 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/27 02:07:52 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	*routine(void *arg);
 
 void	ft_error(int erreur, t_data *tab);
 
-size_t	get_time(void);
+long long	get_time(void);
 void	spend_time(t_data *tab, size_t time);
 void	print_message(t_philo *philo, int message);
 

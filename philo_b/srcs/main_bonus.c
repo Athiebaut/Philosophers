@@ -5,47 +5,110 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/18 00:17:57 by alix              #+#    #+#             */
-/*   Updated: 2024/03/26 00:18:42 by athiebau         ###   ########.fr       */
+/*   Created: 2024/03/27 21:34:04 by athiebau          #+#    #+#             */
+/*   Updated: 2024/03/27 21:34:19 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers_bonus.h"
 
-void	ft_error(int error, t_data *tab)
+#include "../includes/philo_bonus.h"
+
+int	main(int argc, char **argv)
 {
-	(void)tab;
-	if (error == E_PARSING)
-		printf("Error: Invalids parameters\n");
-	else
-		perror("Error:");
-	if (tab->list)
+	t_cycle	*cycle;
+
+	if (argc != 5 && argc != 6)
+		return (printf("Invalid nb of arguments\n"), 1);
+	if (check_args(argc, argv))
+		return (1);
+	cycle = cycle_init(argc, argv);
+	if (!cycle)
+		return (1);
+	if (start_cycle(cycle))
+		return (1);
+	parent_process(cycle);
+	return (0);
+}
+
+int	start_cycle(t_cycle *cycle)
+{
+	int	i;
+	int	pid;
+
+	if (cycle->nb_meals == 0)
+		return (free_cycle(cycle), 1);
+	cycle->start_time = get_time_ms();
+	if (cycle->start_time < 0)
+		return (print_msg_err("Start time init failed\n", cycle));
+	cycle->last_meal = cycle->start_time;
+	i = -1;
+	while (++i < cycle->nb_philo)
 	{
-		free(tab->list);
-		tab->list = NULL;
+		pid = fork();
+		if (pid == -1)
+			handle_fork_fail(cycle, i);
+		else if (pid == 0)
+			child_process(cycle, i);
+		else
+			cycle->tabpid[i] = pid;
 	}
+	if (cycle->nb_philo > 1)
+		create_monitors(cycle);
+	return (0);
+}
+
+void	handle_fork_fail(t_cycle *cycle, int i)
+{
+	while (--i >= 0)
+	{
+		if (kill(cycle->tabpid[i], 0) == 0)
+		{
+			if (kill(cycle->tabpid[i], SIGKILL) == -1)
+			{
+				printf("Kill processes failed\n");
+				exit(1);
+			}
+		}
+	}
+	printf("A fork failed\n");
+	free_cycle(cycle);
 	exit(1);
 }
 
-int	main(int ac, char **av)
+int	parent_process(t_cycle *cycle)
 {
-	t_data		tab;
-	int	i;
-	
-	if (ac < 5 || ac > 6 || check_args(av, &tab) == 1)
-		ft_error(E_PARSING, NULL);
-	tab.time_0 = get_time();
-	if (tab.time_0 == -1)
-		ft_error(E_TIME, &tab);
-	i = -1;
-	while (++i < tab.nb_philo)
+	if (cycle->nb_philo == 1)
 	{
-		tab.list[i].pid = fork();
-		if (tab.list[i].pid == -1)
-			ft_error(E_FORK, &tab);
-		if (tab.list[i].pid == 0)
-			routine(&tab.list[i]);
+		waitpid(-1, NULL, 0);
+		free_cycle(cycle);
+		return (0);
 	}
-	the_end(&tab);
+	while (1)
+	{
+		if (check_stop_flag(cycle))
+			break ;
+		usleep(1000);
+	}
+	pthread_join(cycle->death_check, NULL);
+	pthread_join(cycle->meal_check, NULL);
+	end_cycle(cycle);
+	free_cycle(cycle);
+	return (0);
+}
+
+int	end_cycle(t_cycle *cycle)
+{
+	int	i;
+
+	i = 0;
+	while (i < cycle->nb_philo)
+	{
+		if (kill(cycle->tabpid[i], 0) == 0)
+		{
+			if (kill(cycle->tabpid[i], SIGKILL) == -1)
+				return (print_msg_err("Failed to kill a process\n", cycle));
+		}
+		i++;
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:06:39 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/26 00:20:25 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/27 04:07:00 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ typedef struct s_data
 	long long		time_to_think;
 	int				nb_meals;
 	int				dead;
-	int				satiety;
+	//int				satiety;
 	long long		time_0;
 	sem_t 		*check;
 	sem_t		*print;
-	//sem_t		*meal;
+	sem_t		*meal;
 	sem_t		*fork;
 	t_philo			*list;
 
@@ -102,13 +102,15 @@ void	ft_error(int error, t_data *tab);
 
 int	check_args(char **av, t_data *tab);
 
+bool	test_meals(t_philo *philo);
+bool	test_death(t_data *tab);
 void	*check_death_and_satiety(void *arg);
 void	the_end(t_data *tab);
 
 void	*routine(void *arg);
 
-void	spend_time(t_data *tab, size_t time);
-size_t	get_time(void);
+void	spend_time(t_philo *philo, long long time);
+long long	get_time(void);
 void	print_message(t_philo *philo, int message);
 
 #endif

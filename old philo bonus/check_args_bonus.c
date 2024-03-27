@@ -6,7 +6,7 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 00:19:22 by alix              #+#    #+#             */
-/*   Updated: 2024/03/26 00:02:42 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/27 04:13:09 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,17 @@ static void	initialize_philo(t_data *tab)
 	}
 	tab->check = sem_open("/sem_check", O_CREAT, 0644, 1);
 	tab->print = sem_open("/sem_print", O_CREAT, 0644, 1);
-	//tab->meal = sem_open("/sem_meal", O_CREAT, 0644, 1);
 	tab->fork = sem_open("/sem_fork", O_CREAT, 0644, tab->nb_philo);
+	tab->meal = sem_open("/sem_meal", O_CREAT, 0644, 1);
 	if (tab->check == SEM_FAILED || tab->print == SEM_FAILED
-		|| tab->fork == SEM_FAILED)
+		|| tab->fork == SEM_FAILED || tab->meal == SEM_FAILED)
 		ft_error(E_SEMAPHORE, tab);
 }
 
 static void	ft_initialisation(t_data *tab)
 {
 	tab->dead = 0;
-	tab->satiety = 0;
+	//tab->satiety = 0;
 	tab->list = (t_philo *)malloc(tab->nb_philo * sizeof(t_philo));
 	if (!tab->list)
 		ft_error(E_MALLOC, tab);
