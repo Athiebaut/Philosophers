@@ -6,7 +6,7 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 22:52:13 by alix              #+#    #+#             */
-/*   Updated: 2024/03/22 15:43:16 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/28 05:35:36 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void	check_death_and_satiety(t_data *tab)
 					print_message(&tab->list[i], M_DEATH);
 				break ;
 			}
-			//usleep(1);
 		}
 		usleep(1);
 		if (test_death(tab))

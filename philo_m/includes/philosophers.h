@@ -6,7 +6,7 @@
 /*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:06:39 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/27 02:07:52 by athiebau         ###   ########.fr       */
+/*   Updated: 2024/03/28 05:43:37 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_data
 	int				dead;
 	int				satiety;
 	long long		time_0;
-	pthread_t	*id;
+	pthread_t		*id;
 	pthread_mutex_t	check;
 	pthread_mutex_t	print;
 	pthread_mutex_t	meal;
@@ -62,7 +62,7 @@ typedef struct s_data
 
 /*
  ----------------------------------------
-|		    ENUM		 |
+|			 ENUM		 |
  ----------------------------------------
 */
 
@@ -82,29 +82,28 @@ enum
 	M_EAT,
 	M_SLEEP,
 	M_THINK,
-	M_DROP
 };
 
 /*
  ----------------------------------------
-|		   FILES		 |
+|			FILES		 |
  ----------------------------------------
 */
 
-int		check_args(char **av, t_data *tab);
+int			check_args(char **av, t_data *tab);
 
-void	*routine(void *arg);
+void		*routine(void *arg);
 
-void	ft_error(int erreur, t_data *tab);
+void		ft_error(int erreur, t_data *tab);
 
 long long	get_time(void);
-void	spend_time(t_data *tab, size_t time);
-void	print_message(t_philo *philo, int message);
+void		spend_time(t_data *tab, size_t time);
+void		print_message(t_philo *philo, int message);
 
-bool	is_philo_dead(t_data *tab);
+bool		is_philo_dead(t_data *tab);
 
-bool	test_death(t_data *tab);
-bool	test_satiety(t_data *tab);
-void	check_death_and_satiety(t_data *tab);
+bool		test_death(t_data *tab);
+bool		test_satiety(t_data *tab);
+void		check_death_and_satiety(t_data *tab);
 
 #endif

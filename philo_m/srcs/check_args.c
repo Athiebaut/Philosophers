@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alix <alix@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: athiebau <athiebau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:50:09 by athiebau          #+#    #+#             */
-/*   Updated: 2024/03/20 17:26:27 by alix             ###   ########.fr       */
+/*   Updated: 2024/03/28 05:40:26 by athiebau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static int	get_right_size(char *str)
 		count++;
 	}
 	return (count);
-		
 }
 
 static int	check_numbers(char *str, int *error)
@@ -52,12 +51,9 @@ static int	check_numbers(char *str, int *error)
 	{
 		if (!(str[i] >= '0' && str[i] <= '9'))
 			*error = 1;
-		result = result * 10 + (str[i] - 48);
-		i++;
+		result = result * 10 + (str[i++] - 48);
 	}
-	if (len > 10)
-		*error = 1;
-	if (result > INT_MAX)
+	if (len > 10 || result > INT_MAX)
 		*error = 1;
 	return (result);
 }
